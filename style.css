@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fefefe;
+}
+
+.game {
+    position: relative;
+    width: 80vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5px;
+    background: #333;
+}
+
+.box {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fefefe;
+}
+
+.cross {
+    height: 60%;
+    width: 8px;
+    z-index: 10;
+    transform: rotate(-45deg);
+    animation: strokeOne 0.3s ease forwards;
+    background: rgb(210, 0, 0);
+}
+
+.cross::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 8px;
+    rotate: 90deg;
+    animation-delay: 0.3s;
+    background: rgb(210, 0, 0);
+}
+
+@keyframes strokeOne {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 60%;
+    }
+}
+
+@keyframes strokeTwo {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 100%;
+    }
+}
+
+.circle {
+    height: 50%;
+    aspect-ratio: 1;
+    display: flex;
+    scale: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgb(91, 156, 255);
+    animation: circleStroke 0.3s ease forwards;
+}
+
+.circle::after {
+    content: '';
+    display: block;
+    height: 75%;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    background: #fff;
+}
+
+@keyframes circleStroke {
+    0% {
+        scale: 0;
+    }
+    100% {
+        scale: 1;
+    }
+}
+
+.win-bar {
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    width: 10px;
+    scale: 1 0;
+    position: absolute;
+    transform-origin: top left;
+    pointer-events: none;
+    opacity: 0.5;
+    animation: winStroke 1s ease forwards;
+}
+
+.win-bar.win-cross { background: red; }
+.win-bar.win-circle { background: blue; }
+
+.win-bar.diagonal {
+    top: calc(5% + 7px);
+    height: 127%;
+}
+
+.win-bar.main-diag {
+    rotate: -45deg;
+}
+
+.win-bar.second-diag {
+    left: auto;
+    right: 5%;
+    rotate: 45deg;
+}
+
+.win-bar.col.col-1 { left: calc(100% / 6 - 5px); }
+.win-bar.col.col-2 { left: calc(3*(100% / 6) - 5px); }
+.win-bar.col.col-3 { left: calc(5*(100% / 6) - 5px); }
+
+.win-bar.row { rotate: -90deg; }
+.win-bar.row.row-1 { top: calc(100% / 6 - 5px); }
+.win-bar.row.row-2 { top: calc(3*(100% / 6) + 5px); }
+.win-bar.row.row-3 { top: calc(5*(100% / 6) + 5px); }
+
+@keyframes winStroke {
+    0% { scale: 1 0 }
+    100% {scale: 1 1}
+}
