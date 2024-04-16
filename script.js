@@ -1,5 +1,9 @@
-const all_boxes = document.querySelectorAll(".box")
+const all_boxes = document.querySelectorAll(".game .box")
 const free_boxes = Array.from(all_boxes)
+
+const winBar = document.querySelector(".win-bar")
+const topDiv = document.querySelector(".top")
+const turnIndicator = document.querySelector(".top .box > div")
 
 const CROSS = document.createElement("div")
 CROSS.className = "cross"
@@ -7,17 +11,24 @@ CROSS.className = "cross"
 const CIRCLE = document.createElement("div")
 CIRCLE.className = "circle"
 
-let currentElement = CROSS
-
 const crosses = []
 const circles = []
 
+let currentElement = CROSS
+let gameOver = false
+
 free_boxes.forEach(box => {
     box.onclick = () => {
-        let index = free_boxes.indexOf(box)
-        if(index > -1){
-            fill(box)
-            free_boxes.splice(index, 1)
+        if(!gameOver){
+            let index = free_boxes.indexOf(box)
+            if(index > -1){
+                fill(box)
+                free_boxes.splice(index, 1)
+            }
+            if(free_boxes.length == 0 && !gameOver){
+                gameOver = true
+                topDiv.innerHTML = "<h1>It's a tie!</h1>"
+            }
         }
     }
 })
@@ -34,18 +45,33 @@ function fill(element) {
         currentElement = CROSS
     }
 
+    turnIndicator.className = currentElement.className
+
+    let win = checkWinner()
+
+    if(win) {
+        gameOver = true
+        winBar.classList.add(`win-${win.winner}`)
+        winBar.className += " " + win.combination
+
+        winBar.animate({
+            transform: "scaleY(1)"
+        }, {duration: 1000, easing: "ease", fill: "forwards"})
+
+        topDiv.innerHTML = `<div class="box"><div class="${win.winner}"></div></div><h1>Won</h1>`
+    }
 }
 
 function checkWinner() {
     const win = {
-        "row-1": [0, 1, 2],
-        "row-2": [3, 4, 5],
-        "row-3": [6, 7, 8],
-        "col-1": [0, 3, 6],
-        "col-2": [1, 4, 7],
-        "col-3": [2, 5, 8],
-        "main-diag": [0, 4, 8],
-        "second-diag": [2, 4, 6]
+        "row row-1": [0, 1, 2],
+        "row row-2": [3, 4, 5],
+        "row row-3": [6, 7, 8],
+        "col col-1": [0, 3, 6],
+        "col col-2": [1, 4, 7],
+        "col col-3": [2, 5, 8],
+        "diagonal main-diag": [0, 4, 8],
+        "diagonal second-diag": [2, 4, 6]
     }
 
     for (const condition of Object.values(win)) {

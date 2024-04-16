@@ -8,6 +8,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 20px;
     background: #fefefe;
 }
 
@@ -18,6 +20,14 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2.5px;
     background: #333;
+    box-shadow: inset 0 0 0 2px #fff;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
 }
 
 .box {
@@ -45,6 +55,10 @@ body {
     rotate: 90deg;
     animation-delay: 0.3s;
     background: rgb(210, 0, 0);
+}
+
+.top .box {
+    height: 60px;
 }
 
 @keyframes strokeOne {
@@ -100,12 +114,11 @@ body {
     top: 5%;
     left: 5%;
     width: 10px;
-    scale: 1 0;
+    transform: scaleY(0);
     position: absolute;
     transform-origin: top left;
     pointer-events: none;
     opacity: 0.5;
-    animation: winStroke 1s ease forwards;
 }
 
 .win-bar.win-cross { background: red; }
@@ -131,11 +144,6 @@ body {
 .win-bar.col.col-3 { left: calc(5*(100% / 6) - 5px); }
 
 .win-bar.row { rotate: -90deg; }
-.win-bar.row.row-1 { top: calc(100% / 6 - 5px); }
+.win-bar.row.row-1 { top: calc(100% / 6 + 5px); }
 .win-bar.row.row-2 { top: calc(3*(100% / 6) + 5px); }
 .win-bar.row.row-3 { top: calc(5*(100% / 6) + 5px); }
-
-@keyframes winStroke {
-    0% { scale: 1 0 }
-    100% {scale: 1 1}
-}
