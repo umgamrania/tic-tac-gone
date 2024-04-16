@@ -16,7 +16,7 @@ body {
     width: 80vw;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 1.5px;
+    gap: 2.5px;
     background: #333;
 }
 

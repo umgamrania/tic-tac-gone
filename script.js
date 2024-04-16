@@ -36,14 +36,19 @@ function fill(element) {
 
 }
 
-function findWinner() {
-    const winningConditions = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-        [0, 4, 8], [2, 4, 6]             // Diagonals
-    ];
+function checkWinner() {
+    const win = {
+        "row-1": [0, 1, 2],
+        "row-2": [3, 4, 5],
+        "row-3": [6, 7, 8],
+        "col-1": [0, 3, 6],
+        "col-2": [1, 4, 7],
+        "col-3": [2, 5, 8],
+        "main-diag": [0, 4, 8],
+        "second-diag": [2, 4, 6]
+    }
 
-    for (const condition of winningConditions) {
+    for (const condition of Object.values(win)) {
         const [a, b, c] = condition;
         const aBox = all_boxes[a];
         const bBox = all_boxes[b];
@@ -56,7 +61,7 @@ function findWinner() {
             // Return the winner's symbol and the winning combination
             return {
                 winner: aBox.firstChild.className,
-                combination: condition
+                combination: getKeyByValue(win, condition)
             };
         }
     }
@@ -64,3 +69,7 @@ function findWinner() {
     // If no winner found
     return null;
 }
+
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}  
