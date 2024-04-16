@@ -38,6 +38,24 @@ body {
     background: #fefefe;
 }
 
+.cross.flash,
+.circle.flash {
+    scale: 1;
+    animation: flash 1s ease infinite;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .cross {
     height: 60%;
     width: 8px;

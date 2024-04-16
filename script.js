@@ -17,6 +17,16 @@ const circles = []
 let currentElement = CROSS
 let gameOver = false
 
+let flashing
+function flash(element) {
+    if(flashing){
+        flashing.classList.remove("flash")
+    }
+
+    flashing = element
+    flashing.classList.add("flash")
+}
+
 free_boxes.forEach(box => {
     box.onclick = () => {
         if(!gameOver){
@@ -29,6 +39,7 @@ free_boxes.forEach(box => {
                 gameOver = true
                 topDiv.innerHTML = "<h1>It's a tie!</h1>"
             }
+            console.log(crosses.length, circles.length);
         }
     }
 })
@@ -38,11 +49,28 @@ function fill(element) {
         crosses.push(element)
         element.appendChild(currentElement.cloneNode(false))
         currentElement = CIRCLE
+        if(crosses.length > 3){
+            crosses[0].removeChild(crosses[0].firstChild)
+            free_boxes.push(crosses[0])
+            crosses.splice(0, 1)
+        }
+        if(circles.length == 3) {
+            flash(circles[0].firstChild)
+        }
     }
     else if(currentElement == CIRCLE) {
         circles.push(element)
         element.appendChild(currentElement.cloneNode(false))
         currentElement = CROSS
+        if(circles.length > 3){
+            console.log("Inside if");
+            circles[0].removeChild(circles[0].firstChild)
+            free_boxes.push(circles[0])
+            circles.splice(0, 1)
+        }
+        if(crosses.length == 3) {
+            flash(crosses[0].firstChild)
+        }
     }
 
     turnIndicator.className = currentElement.className
@@ -51,6 +79,10 @@ function fill(element) {
 
     if(win) {
         gameOver = true
+
+        if(flashing)
+            flashing.classList.remove("flash")
+        
         winBar.classList.add(`win-${win.winner}`)
         winBar.className += " " + win.combination
 
