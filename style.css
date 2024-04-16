@@ -15,7 +15,7 @@ body {
 
 .game {
     position: relative;
-    width: 80vw;
+    width: 80vmin;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2.5px;
